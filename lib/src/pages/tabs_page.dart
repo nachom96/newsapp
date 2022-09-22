@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp/src/services/news_service.dart';
 import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
-
+  const TabsPage({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => _NavegacionModel(),
-      child: Scaffold(
+      child: const Scaffold(
         body: _Paginas(),
         bottomNavigationBar: _Navegacion(),
        ),
@@ -44,7 +46,6 @@ class _Paginas extends StatelessWidget {
   Widget build(BuildContext context) {
     
     final navegacionMoel = Provider.of<_NavegacionModel>(context);
-
     
     return PageView(
       controller: navegacionMoel.pageController,
@@ -64,13 +65,13 @@ class _Paginas extends StatelessWidget {
 class _NavegacionModel with ChangeNotifier{
 
   int _paginaActual = 0;
-  PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
   
   int get paginaActual => _paginaActual;
 
   set paginaActual( int valor ){
     _paginaActual = valor;
-    _pageController.animateToPage(valor, duration: Duration(milliseconds: 250), curve: Curves.easeOut);
+    _pageController.animateToPage(valor, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
     
     notifyListeners();
   }
