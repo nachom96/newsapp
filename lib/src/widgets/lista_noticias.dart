@@ -17,7 +17,7 @@ class ListaNoticias extends StatelessWidget {
       itemCount: noticias.length,
       itemBuilder: (BuildContext context, int index) {
         return _Noticia(noticia: noticias[index], index: index);
-      },
+      }, 
     );
   }
 }
@@ -35,8 +35,59 @@ class _Noticia extends StatelessWidget {
       children: [
         _TarjetaTopBar(noticia: noticia, index: index,),
         _TarjetaTitulo( noticia: noticia ),
-        _TarjetaImagen ( noticia: noticia)
+        _TarjetaImagen ( noticia: noticia),
+        _TarjetaBody ( noticia: noticia ),
+        _TarjetaBotones(),
+        const SizedBox(height: 10,),
+        const Divider(),
       ],
+    );
+  }
+}
+
+class _TarjetaBotones extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          
+          RawMaterialButton(
+            onPressed: () {},
+            fillColor: miTema.colorScheme.secondary,
+            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
+            child: const Icon(Icons.star_border),
+            ),
+
+          const SizedBox(width: 10,),
+
+          RawMaterialButton(
+            onPressed: () {},
+            fillColor: Colors.blue,
+            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
+            child: const Icon(Icons.more),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TarjetaBody extends StatelessWidget {
+
+  final Article noticia;
+
+  const _TarjetaBody({
+    required this.noticia
+    });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric( horizontal: 20 ),
+      child: Text( (noticia.description != null ) ? noticia.description.toString() : ''),
     );
   }
 }
@@ -52,7 +103,18 @@ class _TarjetaImagen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Hola Mundo'),
+      margin: EdgeInsets.symmetric(vertical: 20),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+        child: Container(
+          child: ( noticia.urlToImage != null) 
+          ? FadeInImage(
+            placeholder: const AssetImage('assets/img/giphy.gif'), 
+            image: NetworkImage( noticia.urlToImage.toString()),
+            )
+          : const Image(image: AssetImage('assets/img/no-image.png'))
+        ),
+      ),
     );
   }
 }
